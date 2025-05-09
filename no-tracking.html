@@ -39,6 +39,51 @@
         MktoForms2.loadForm("//990-HQY-353.mktoweb.com", "990-HQY-353", 1099);
     </script>
 
+    <!-- Populate UTM params from URL -->
+    <script>
+          // Fill Marketo form fields with UTM values from URL (no localStorage used)
+          MktoForms2.whenReady(function (form) {
+            const formElem = form.getFormElem();
+    
+            // Map UTM params to your Marketo field API names
+            const utmMap = {
+              utm_source: 'uTMSource',
+              utm_medium: 'uTMMedium',
+              utm_campaign: 'uTMCampaign'
+            };
+    
+            const params = new URLSearchParams(window.location.search);
+    
+            Object.keys(utmMap).forEach(utmParam => {
+              const value = params.get(utmParam);
+              if (value) {
+                const fieldName = utmMap[utmParam];
+                const field = formElem.find(`input[name="${fieldName}"]`);
+                if (field.length) {
+                  field.val(value);
+                }
+              }
+            });
+          });
+        </script>
+    
+    
+    <!-- Populate Marketo Cookie Capture Field -->
+    <script>
+        // Populate cookieCapture field with _mkto_trk cookie value
+        MktoForms2.whenReady(function (form) {
+            const match = document.cookie.match('_mkto_trk=([^;]+)');
+            const mktoCookie = match ? match[1] : null;
+
+            if (mktoCookie) {
+                const cookieField = form.getFormElem().find('input[name="cookieCapture"]');
+                if (cookieField.length) {
+                    cookieField.val(mktoCookie);
+                }
+            }
+        });
+    </script>
+
 </body>
 
 </html>
