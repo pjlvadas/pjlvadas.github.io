@@ -39,35 +39,65 @@
       MktoForms2.loadForm("//990-HQY-353.mktoweb.com", "990-HQY-353", 1099);
     </script>
     
-    <!-- Store UTM Parameters -->
+    <!-- Store UTM Parameters if present in URL-->
     <script>
+      // Capture UTM params from URL and store in localStorage
       (function () {
-        const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
+        const utmMap = {
+          utm_source: 'uTMSource',
+          utm_medium: 'uTMMedium',
+          utm_campaign: 'uTMCampaign'
+        };
 
-        function getUTMsFromURL() {
-          const params = new URLSearchParams(window.location.search);
-          utmKeys.forEach(key => {
-            const val = params.get(key);
-            if (val) localStorage.setItem(key, val);
-          });
-        }
+        const params = new URLSearchParams(window.location.search);
 
-        function populateFormFields(form) {
-          utmKeys.forEach(key => {
-            const val = localStorage.getItem(key);
-            if (val) {
-              const field = form.getFormElem().find(`input[name="${key}"]`);
-              if (field.length) field.val(val);
-            }
-          });
-        }
-
-        getUTMsFromURL();
-        MktoForms2.whenReady(function (form) {
-          populateFormFields(form);
+        Object.keys(utmMap).forEach((utmParam) => {
+          const value = params.get(utmParam);
+          if (value) {
+            // Store in localStorage under the Marketo field name
+            localStorage.setItem(utmMap[utmParam], value);
+          }
         });
       })();
     </script>
+
+    <!-- Populate form fields from local storage -->
+    <script>
+      // Populate UTM fields from localStorage when form is ready
+      MktoForms2.whenReady(function (form) {
+        const formElem = form.getFormElem();
+        const fieldKeys = ['uTMSource', 'uTMMedium', 'uTMCampaign'];
+
+        fieldKeys.forEach((key) => {
+          const value = localStorage.getItem(key);
+          if (value) {
+            const field = formElem.find(`input[name="${key}"]`);
+            if (field.length) {
+              field.val(value);
+            }
+          }
+        });
+      });
+    </script>
+
+    <!-- Populate Marketo Cookie Capture Field -->
+    <script>
+      // Populate cookieCapture field with _mkto_trk cookie value
+      MktoForms2.whenReady(function (form) {
+        const match = document.cookie.match('_mkto_trk=([^;]+)');
+        const mktoCookie = match ? match[1] : null;
+
+        if (mktoCookie) {
+          const cookieField = form.getFormElem().find('input[name="cookieCapture"]');
+          if (cookieField.length) {
+            cookieField.val(mktoCookie);
+          }
+        }
+      });
+    </script>
+
+    
+
 
 </body>
 
