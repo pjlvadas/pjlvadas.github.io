@@ -4,31 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <title>UTM Tracking Demo</title>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://990-HQY-353.mktoweb.com/js/forms2/js/forms2.min.js"></script>
     <script type="text/javascript">
-        (function () {
-            var didInit = false;
-            function initMunchkin() {
-                if (didInit === false) {
-                    didInit = true;
-                    Munchkin.init('990-HQY-353');
-                }
-            }
-            var s = document.createElement('script');
-            s.type = 'text/javascript';
-            s.async = true;
-            s.src = '//munchkin.marketo.net/munchkin.js';
-            s.onreadystatechange = function () {
-                if (this.readyState == 'complete' || this.readyState == 'loaded') {
-                    initMunchkin();
-                }
-            };
-            s.onload = initMunchkin;
-            document.getElementsByTagName('head')[0].appendChild(s);
-        })();
+      (function () {
+        var didInit = false;
+        function initMunchkin() {
+          if (didInit === false) {
+            didInit = true;
+            Munchkin.init('990-HQY-353');
+          }
+        }
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = '//munchkin.marketo.net/munchkin.js';
+        s.onreadystatechange = function () {
+          if (this.readyState == 'complete' || this.readyState == 'loaded') {
+            initMunchkin();
+          }
+        };
+        s.onload = initMunchkin;
+        document.getElementsByTagName('head')[0].appendChild(s);
+      })();
     </script>
-
-    <script src="//990-HQY-353.mktoweb.com/js/forms2/js/forms2.min.js"></script>
 </head>
 
 <body>
@@ -36,7 +35,9 @@
 
     <form id="mktoForm_1099"></form>
     
-    <script>MktoForms2.loadForm("//990-HQY-353.mktoweb.com", "990-HQY-353", 1099);</script>
+    <script>
+      MktoForms2.loadForm("//990-HQY-353.mktoweb.com", "990-HQY-353", 1099);
+    </script>
     
     <script>
       (function () {
@@ -67,24 +68,6 @@
       })();
     </script>
 
-    <script>
-        (function () {
-            var didInit = false;
-            function initMunchkin() {
-                if (!didInit) {
-                    didInit = true;
-                    Munchkin.init('990-HQY-353', { domainLevel: 2 });
-                }
-            }
-            var s = document.createElement('script');
-            s.type = 'text/javascript'; s.async = true; s.src = '//munchkin.marketo.net/munchkin.js';
-            s.onreadystatechange = function () {
-                if (this.readyState === 'complete' || this.readyState === 'loaded') initMunchkin();
-            };
-            s.onload = initMunchkin;
-            document.head.appendChild(s);
-        })();
-    </script>
 </body>
 
 </html>
